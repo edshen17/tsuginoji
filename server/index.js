@@ -1,13 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors')
-const sslRedirect = require('heroku-ssl-redirect');
+// const sslRedirect = require('heroku-ssl-redirect');
 const app = express();
 
 // Middleware
 app.use(bodyParser.json());
 app.use(cors());
-app.use(sslRedirect());
+// app.use(sslRedirect());
 
 const words = require('./routes/api/words');
 
@@ -23,23 +23,23 @@ if (process.env.NODE_ENV === 'production') {
         res.sendFile(__dirname + '/public/index.html');
     });
 
-    // app.use((req, res, next) => {
-    //     if (req.header('x-forwarded-proto') !== 'https')
-    //       res.redirect(`https://${req.header('host')}${req.url}`)
-    //     else
-    //       next()
-    //   })
+    app.use((req, res, next) => {
+        if (req.header('x-forwarded-proto') !== 'https')
+          res.redirect(`https://${req.header('host')}${req.url}`)
+        else
+          next()
+      })
 }
 
-// app.use (function (req, res, next) {
-//     if (req.secure) {
-//             // request was via https, so do no special handling
-//             next();
-//     } else {
-//             // request was via http, so redirect to https
-//             res.redirect('https://' + req.headers.host + req.url);
-//     }
-// });
+app.use (function (req, res, next) {
+    if (req.secure) {
+            // request was via https, so do no special handling
+            next();
+    } else {
+            // request was via http, so redirect to https
+            res.redirect('https://' + req.headers.host + req.url);
+    }
+});
 app.enable('trust proxy');
 
 const port = process.env.PORT || 5000;
