@@ -1,13 +1,14 @@
-const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors')
 var http = require('http');
-var enforce = require('express-sslify');
+import sslRedirect from 'heroku-ssl-redirect';
+import express from 'express';
 const app = express();
 
 // Middleware
 app.use(bodyParser.json());
 app.use(cors());
+app.use(sslRedirect());
 
 const words = require('./routes/api/words');
 
