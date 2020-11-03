@@ -20,32 +20,18 @@ if (process.env.NODE_ENV === 'production') {
 
     // Handle SPA
     app.get(/.*/, (req, res) => {
-        if(req.headers['x-forwarded-proto']!=='https'){
-        res.redirect(301, 'https://' + req.headers.host + req.url);
-        }
         res.sendFile(__dirname + '/public/index.html');
     });
 }
 
 
-
-// app.use((req, res, next) => {
-//     if (req.header('x-forwarded-proto') !== 'https')
-//       res.redirect(`https://${req.header('host')}${req.url}`)
-//     else
-//       next()
-//   })
-
-// app.use (function (req, res, next) {
-//     if (req.secure) {
-//             // request was via https, so do no special handling
-//             next();
-//     } else {
-//             // request was via http, so redirect to https
-//             res.redirect('https://' + req.headers.host + req.url);
-//     }
-// });
-// app.enable('trust proxy');
+app.enable('trust proxy');
+app.use(function(req, res, next) {
+    if (req.secure){
+        return next();
+    }
+    res.redirect("https://" + req.headers.host + req.url);
+});
 
 const port = process.env.PORT || 5000;
 // app.use(enforce.HTTPS({ trustProtoHeader: true }))
