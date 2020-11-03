@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors')
+var http = require('http');
+var enforce = require('express-sslify');
 // const sslRedirect = require('heroku-ssl-redirect');
 const app = express();
 
@@ -30,7 +32,7 @@ app.use((req, res, next) => {
     else
       next()
   })
-  
+
 app.use (function (req, res, next) {
     if (req.secure) {
             // request was via https, so do no special handling
@@ -43,5 +45,8 @@ app.use (function (req, res, next) {
 app.enable('trust proxy');
 
 const port = process.env.PORT || 5000;
+app.use(enforce.HTTPS({ trustProtoHeader: true }))
 
-app.listen(port, () => { console.log(`Server started on port ${port}`)});
+http.createServer(app).listen(port, function() {
+    console.log('Express server listening on port ' + app.get('port'));
+});
