@@ -41,7 +41,7 @@ router.get('/:word', (req,res) => {
             {
                 $match: { $or: matchOrArray}
             },
-            {$sort: { "wordLength": 1, "kana_length": 1, "pitch": -1, "definition_length": -1, }},
+            {$sort: { "wordLength": 1, "kanaLength": 1, "pitch": -1, "definitionLength": -1, }},
             ]);
             const options = {
             page: req.query.page,
