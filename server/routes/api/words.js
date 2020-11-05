@@ -32,15 +32,16 @@ router.get('/:word', (req,res) => {
                 "kana": 1,
                 "definition": 1,
                 "pitch": 1,
-                "kana_length": { $strLenCP: "$kana" },
-                "definition_length": { $strLenCP: "$definition" },
+                "kanaLength": { $strLenCP: "$kana" },
+                "wordLength": { $strLenCP: "$word" },
+                "definitionLength": { $strLenCP: "$definition" },
                 "audio": 1,
                 }
             }, 
             {
                 $match: { $or: matchOrArray}
             },
-            {$sort: {"kana_length": 1, "definition_length": -1, "pitch": -1}},
+            {$sort: { "wordLength": 1, "kana_length": 1, "pitch": -1, "definition_length": -1, }},
             ]);
             const options = {
             page: req.query.page,
