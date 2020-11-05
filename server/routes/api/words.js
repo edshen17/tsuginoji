@@ -18,7 +18,9 @@ router.get('/:word', (req,res) => {
             { kana: { $regex: `${param}`, $options: "g" } }, 
             { word: { $regex: `${param}`, $options: "g" } },
         ]
-        if (wanakana.isRomaji(param)) {
+        
+        //transform so はたらく,　ハタラク, and hataraku get the same results as 働く
+        if (wanakana.isRomaji(param) || wanakana.isHiragana(param) || wanakana.isKatakana(param)) { 
             hiragana = wanakana.toHiragana(param);
             katakana = wanakana.toKatakana(param);
             matchOrArray[0].kana.$regex = hiragana;
