@@ -51,7 +51,12 @@ router.get('/:word', (req,res) => {
         };
         
             Word.aggregatePaginate(aggregate, options, (err, docs) => {
-                res.status(200).json(docs.docs);
+                if (docs.docs.length > 0 ) {
+                    res.status(200).json(docs.docs);
+                } else {
+                    res.status(404).json(docs.docs);
+                }
+                
             });
 })
 
