@@ -18,6 +18,7 @@
     "heroku-ssl-redirect": "^0.1.1",
     "mongoose": "^5.10.11",
     "mongoose-aggregate-paginate-v2": "^1.0.42",
+    "vue-dark-mode-switcher": "^0.1.8",
     "vue-router": "^3.4.8",
     "wanakana": "^4.0.2"
   },
