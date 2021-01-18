@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors')
+const cors = require('cors');
+const compression = require('compression')
 var http = require('http');
 
 const app = express();
@@ -19,6 +20,7 @@ app.use(function(req, res, next) {
 const words = require('./routes/api/words');
 
 app.use('/api/words', words);
+app.use(compression());
 
 // Handle production
 if (process.env.NODE_ENV === 'production') {
