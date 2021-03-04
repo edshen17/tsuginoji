@@ -18,25 +18,24 @@ app.use(compression());
 
 if (process.env.NODE_ENV == 'production') {
     app.use((req, res, next) => {
-      if (req.header('x-forwarded-proto') !== 'https') {
-        res.redirect(`https://${req.header('host')}${req.url}`)
-      } else {
-        next();
-      }
+        if (req.header('x-forwarded-proto') !== 'https') {
+            res.redirect(`https://${req.header('host')}${req.url}`)
+        } else {
+            next();
+        }
     });
-  
+
     // static folder
     app.use(express.static(__dirname + '/public/'));
-  
+
     // handle spa
-    app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));  
-  }
+    app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
+}
 
-  app.use(express.static('public'))
+app.use(express.static('public'))
 
-  const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 
-  http.createServer(app).listen(port, function() {
+http.createServer(app).listen(port, function() {
     console.log('Express server listening on port ' + app.get('port'));
-  });
-  
+});
