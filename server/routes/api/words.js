@@ -15,8 +15,8 @@ router.get('/:word', (req,res) => {
     let katakana = '';
         const param = req.params.word.trim();
         const matchOrArray = [
-            { kana: { $regex: `${param}`, $options: "g" } }, 
-            { word: { $regex: `${param}`, $options: "g" } },
+            { kana: { $regex: `^${param}`, $options: "g" } }, 
+            { word: { $regex: `^${param}`, $options: "g" } },
         ]
         
         //transform so はたらく,　ハタラク, and hataraku get the same results as 働く
